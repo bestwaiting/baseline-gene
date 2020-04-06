@@ -4,6 +4,7 @@ import com.bestwaiting.baseline.entity.GeneParamsEntity;
 import com.bestwaiting.baseline.entity.TableEntity;
 import com.bestwaiting.baseline.entity.TemplateEntity;
 import com.bestwaiting.baseline.enums.ModuleTypeEnum;
+import com.bestwaiting.baseline.enums.ResourceEnum;
 import com.bestwaiting.baseline.model.convertor.GeneParamConvertor;
 import com.bestwaiting.baseline.model.dto.LocalGeneParamsDto;
 import com.bestwaiting.baseline.utils.FileUtils;
@@ -62,10 +63,10 @@ public class GeneService {
         if (moduleFlag) {
             pathBuilder.append(templateEntity.getModuleName()).append("/");
         }
-        if (templateEntity.getFileType().equals("java")) {
-            pathBuilder.append("src/main/java/");
+        if (templateEntity.getFileType().equals(ResourceEnum.JAVA.getType())) {
+            pathBuilder.append(ResourceEnum.JAVA.getPath());
         } else {
-            pathBuilder.append("src/main/resources/");
+            pathBuilder.append(ResourceEnum.XML.getPath());
         }
 
         StringBuilder pkgBuilder = new StringBuilder();
