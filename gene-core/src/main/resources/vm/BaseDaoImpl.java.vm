@@ -1,0 +1,142 @@
+package ${package}.dao;
+import com.github.pagehelper.Page;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public abstract class Base${className}Dao implements ${className}Dao {
+
+    @Resource
+    SqlSessionTemplate sqlSessionTemplate;
+
+    /**
+     * 插入一条记录
+     *
+     * @param condition
+     * @return
+     */
+    @Override
+    int insert(T condition) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("condition", condition);
+        return sqlSessionTemplate.insert("Base${className}Dao.insert", paramMap);
+    }
+
+    /**
+     * 批量插入记录
+     *
+     * @param list
+     * @return
+     */
+    @Override
+    int insertBatch(List<T> list) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("list", list);
+        return sqlSessionTemplate.insert("Base${className}Dao.insertBatch", paramMap);
+    }
+
+    /**
+     * 根据主键更新记录
+     *
+     * @param condition
+     * @return
+     */
+    @Override
+    int update(T condition) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("condition", condition);
+        return sqlSessionTemplate.update("Base${className}Dao.update", paramMap);
+    }
+
+    /**
+     * 根据主键删除记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    int delete(Object id) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("id", id);
+        return sqlSessionTemplate.delete("Base${className}Dao.delete", paramMap);
+
+    }
+
+    /**
+     * 根据主键批量删除记录
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    int deleteBatch(Object[] ids) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("ids", ids);
+        return sqlSessionTemplate.delete("Base${className}Dao.deleteBatch", paramMap);
+    }
+
+    /**
+     * 根据主键查询记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    T query(Object id) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("id", id);
+        return sqlSessionTemplate.selectOne("Base${className}Dao.query", paramMap);
+    }
+
+    /**
+     * 根据entity查询记录列表
+     *
+     * @param condition
+     * @return
+     */
+    @Override
+    List<T> queryListByEntity(T condition) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("condition", condition);
+        return sqlSessionTemplate.selectList("Base${className}Dao.queryListByEntity", paramMap);
+    }
+
+    /**
+     * 根据entity分页查询记录列表
+     *
+     * @param condition
+     * @return
+     */
+    @Override
+    Page<T> queryListByEntity(T condition, Page page) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("condition", condition);
+        PageHelper.startPage(page.getPageNum(), page.getPageSize());
+        List<T> list = sqlSessionTemplate.selectList("Base${className}Dao.queryListByEntity", paramMap);
+        PageInfo pageInfo = new PageInfo(list);
+        return pageInfo;
+
+    }
+
+    /**
+     * 根据entity查询记录总数
+     *
+     * @param condition
+     * @return
+     */
+    @Override
+    int queryTotal(T condition) {
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("condition", condition);
+        return sqlSessionTemplate.selectOne("Base${className}Dao.queryTotal", paramMap);
+
+    }
+}

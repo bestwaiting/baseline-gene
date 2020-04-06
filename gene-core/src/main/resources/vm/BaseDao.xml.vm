@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${className}Dao">
+
+#*结果集合*#
+<resultMap id="${classname}Map" type="${package}.dao.${classname}.${className}Entity">
+#foreach($column in $columns)
+<result property="${column.columnAppFiledName}" column="${column.columDBName}"/>
+#end ##
+</resultMap>
+
+#*查询结果基础列*#
+<sql id="all_column">
+#foreach($column in $columns)
+${column.columDBName}#if($velocityCount != $columns.size()), #end ##
+#end ##
+</sql>
+
+#*查询条件基础列*#
+<sql id="where_all">
+#foreach($column in $columns)
+<if test="condition.${column.columnAppFiledName} != null">
+${column.columDBName} = #{condition.${column.columnAppFiledName}} #if($velocityCount != $columns.size())
+and #end
+</if>
+#end
+</sql>
+
+#*插入基础列*#
+    <sql id="insert_columns">
+        #foreach($column in $columns)
+            <if test="condition.${column.columnAppFiledName} != null">${column.columDBName} #if($velocityCount != $columns.size()), #end ##
+            </if> ##
+        #end ##
+    </sql>
+#*插入基础列值*#
+    <sql id="insert_values">
+        #foreach($column in $columns)
+            <if test="condition.${column.columnAppFiledName} != null">
+                #{condition.${column.columnAppFiledName}} #if($velocityCount != $columns.size()), #end
+            </if>
+        #end
+    </sql>
+#*批量插入全部列值*#
+    <sql id="insert_batch">
+        #foreach($column in $columns)
+            #{condition.${column.columnAppFiledName}} #if($velocityCount != $columns.size()), #end
+        #end
+    </sql>
+
+#*查询相关接口*#
+    <select id="query" resultMap="${classname}Map">
+        select
+        <include refid="all_column"/>
+        from ${tableName}
+        where ${pk.columDBName} = #{id}
+    </select>
+
+    <select id="queryListByEntity" resultMap="${classname}Map">
+        select
+        <include refid="all_column"/>
+        from ${tableName}
+        WHERE
+        <include refid="where_all"/>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*) from ${tableName} WHERE
+        <include refid="where_all"/>
+    </select>
+
+    <insert id="insert" parameterType="${package}.dao.${classname}.${className}Entity">
+        insert into ${tableName}
+        (<include refid="all_column"/>)
+        values
+        <foreach collection="list" item="condition" index="index" separator=",">
+            (
+            <include refid="insert_batch"/>
+            )
+        </foreach>
+    </insert>
+    <insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into ${tableName}
+        (<include refid="insert_columns"/>)
+        values
+        (<include refid="insert_values"/>)
+    </insert>
+#*更新相关接口*#
+    <update id="update" parameterType="${package}.dao.${classname}.${className}Entity">
+        update ${tableName}
+        <set>
+            #foreach($column in $columns)
+                #if($column.columDBName != $pk.columDBName)
+                    <if test="$column.columnAppFiledName != null">`$column.columDBName` = #{$column.columnAppFiledName
+                        }#if($velocityCount != $columns.size()), #end</if>
+                #end
+            #end
+        </set>
+        where ${pk.columDBName} = #{${pk.columnAppFiledName}}
+    </update>
+
+#*删除相关接口*#
+    <delete id="delete">
+		delete from ${tableName} where ${pk.columDBName} = #{value}
+	</delete>
+
+    <delete id="deleteBatch">
+        delete from ${tableName} where ${pk.columDBName} in
+        <foreach item="${pk.columnAppFiledName}" collection="array" open="(" separator="," close=")">
+            #{${pk.columnAppFiledName}}
+        </foreach>
+    </delete>
+
+</mapper>

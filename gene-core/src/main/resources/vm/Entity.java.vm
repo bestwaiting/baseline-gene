@@ -1,0 +1,15 @@
+package ${package}.dao.${classname};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public class ${className}Entity extends Base${className}Entity {
+    /**
+    * 默认构造函数
+    */
+    public ${className}Entity() {
+    }
+}

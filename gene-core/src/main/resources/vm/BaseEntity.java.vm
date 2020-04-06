@@ -1,0 +1,35 @@
+package ${package}.dao.${classname};
+
+import java.io.Serializable;
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public abstract class Base${className}Entity implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    #foreach ($column in $columns)
+        /**
+         * ${column.columnComments}
+         */
+        protected  ${column.columnAppType} ${column.columnAppFiledName};
+    #end
+
+    #foreach ($column in $columns)
+        /**
+         * 设置：${column.columnComments}
+         */
+        public void set${column.columnAppFiledNameClass} (${column.columnAppType} ${column.columnAppFiledName}) {
+            this.${column.columnAppFiledName} = ${column.columnAppFiledName};
+        }
+
+        /**
+         * 获取：${column.columnComments}
+         */
+        public $column.columnAppType get${column.columnAppFiledNameClass}() {
+            return ${column.columnAppFiledName};
+        }
+    #end
+}

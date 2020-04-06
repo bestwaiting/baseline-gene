@@ -1,0 +1,11 @@
+package ${package}.dao.${classname};
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+public class  ${className}DaoImpl extends Base${className}DaoImpl {
+
+}

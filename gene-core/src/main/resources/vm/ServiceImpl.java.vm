@@ -1,0 +1,94 @@
+package ${package}.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import ${package}.dao.${className}Dao;
+import ${package}.entity.${className}Entity;
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service("${classname}Service")
+public class  ${className}ServiceImpl implements ${className}Service {
+
+    @Autowired
+    private ${className}Dao ${classname}Dao;
+
+    /**
+     * 插入一条记录
+     * @param ${classname}Entity
+     * @return
+     */
+    public int insert(${className}Entity ${classname}Entity) {
+        return ${classname}Dao.insert(${classname}Entity);
+    }
+
+    /**
+     * 批量插入记录
+     * @param list
+     * @return
+     */
+    public int insertBatch(List<${className}Entity> list) {
+        return ${classname}Dao.insertBatch(list);
+    }
+
+    /**
+     * 根据主键更新记录
+     * @param ${classname}Entity
+     * @return
+     */
+    public int update(${className}Entity ${classname}Entity) {
+        return ${classname}Dao.update(${classname}Entity);
+    }
+
+    /**
+     * 根据主键删除记录
+     * @param id
+     * @return
+     */
+    public int delete(Object id) {
+        return ${classname}Dao.delete(id);
+    }
+
+    /**
+     * 根据主键批量删除记录
+     * @param ids
+     * @return
+     */
+    public int deleteBatch(Object[] ids) {
+        return ${classname}Dao.deleteBatch(ids);
+    }
+
+    /**
+     * 根据主键查询记录
+     * @param id
+     * @return
+     */
+    public ${className}Entity query(Object id) {
+        return ${classname}Dao.query(id);
+    }
+
+    /**
+     * 根据entity查询记录列表
+     * @param ${classname}Entity
+     * @return
+     */
+    public List<${className}Entity> queryListByEntity(${className}Entity ${classname}Entity) {
+        return ${classname}Dao.queryListByEntity(${classname}Entity);
+    }
+
+    /**
+     * 根据entity查询记录总数
+     * @param ${classname}Entity
+     * @return
+     */
+    public int queryTotal(${className}Entity ${classname}Entity) {
+        return ${classname}Dao.queryTotal(${classname}Entity);
+    }
+}
